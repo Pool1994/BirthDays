@@ -1,5 +1,5 @@
-<script>
-const props = defineProps('list')
+<script setup>
+const props = defineProps(['list'])
 </script>
 <template>
     <div class="overflow-x-auto">
@@ -13,7 +13,7 @@ const props = defineProps('list')
       </tr>
     </thead>
     <tbody> 
-      <tr v-for="item in props.data" :key="item.id">
+      <tr v-for="item in props.list" :key="item.id">
         <td> {{item.id}}</td>
         <td>{{item.name}}</td>
         <td>{{item.birthday}}</td>
