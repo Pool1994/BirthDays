@@ -10,7 +10,7 @@ const save = async () => {
   if (error) {
     console.error(error);
   } else {
-    console.dir(data);
+     navigateTo('/birth')
   }
 };
 </script>
@@ -36,6 +36,7 @@ const save = async () => {
           <input
             v-model="form.birthday"
             type="date"
+            date-format="DD MMMM YYYY"
             placeholder="birth day"
             class="input input-bordered w-full max-w-xs"
           />
