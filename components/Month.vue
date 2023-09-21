@@ -1,45 +1,81 @@
 <script setup lang="ts">
 import { IBirthDay } from "~/interfaces/IBirthDay";
-interface IArrayDate{
-   month:number;
-   clients:Array<IBirthDay>
+interface IArrayDate {
+  month: string;
+  clients: Array<IBirthDay>;
 }
-const {dataBrith} = defineProps<{
-  dataBrith:Array<IBirthDay>
+const { dataBrith } = defineProps<{
+  dataBrith: Array<IBirthDay>;
 }>();
-const Months = ref<{ [key: number]: any[] }>({
-  0:[],
-  1:[],
-  2:[],
-  3:[],
-  4:[],
-  5:[],
-  6:[],
-  7:[],
-  8:[],
-  9:[],
-  10:[],
-  11:[]
+const Months = ref<{ [key: number]: IArrayDate }>({
+  0: {
+    month: "Enero",
+    clients: [],
+  },
+  1: {
+    month: "Febrero",
+    clients: [],
+  },
+  2: {
+    month: "Marzo",
+    clients: [],
+  },
+  3: {
+    month: "Abril",
+    clients: [],
+  },
+  4: {
+    month: "Mayo",
+    clients: [],
+  },
+  5: {
+    month: "Junio",
+    clients: [],
+  },
+  6: {
+    month: "Julio",
+    clients: [],
+  },
+  7: {
+    month: "Agosto",
+    clients: [],
+  },
+  8: {
+    month: "Septiembre",
+    clients: [],
+  },
+  9: {
+    month: "Octubre",
+    clients: [],
+  },
+  10: {
+    month: "Noviembre",
+    clients: [],
+  },
+  11: {
+    month: "Diciembre",
+    clients: [],
+  },
 });
-const arrayDate = ref<Array<IArrayDate>>([]);
-const getFechas = ()=>{
-  
-}
+const getFechas = () => {};
 
-watch(()=>dataBrith,(value)=>{
-  console.log(value);
-  value.forEach((item,index)=>{
-     const date = new Date(item.birthday);
-     const month = date.getMonth();
-     
-     for(let key in Months.value){
-        if(Number(key) == month){
+watch(
+  () => dataBrith,
+  (value) => {
+    value.forEach((item, index) => {
+      const date = new Date(item.birthday);
+      const month = date.getMonth();
+
+      for (let key in Months.value) {
+        if (Number(key) == month) {
           let x = Number(key);
-          Months.value[x].push(item as never);
+          Months.value[x].clients.push(item);
         }
-     }
-  });
-},{immediate:true});
+      }
+    });
+  },
+  { immediate: true }
+);
 const data = ref([
   { id: 1, name: "Cy Ganderton", birthday: "Quality Control" },
   { id: 2, name: "Cy Ganderton", birthday: "Quality Control" },
@@ -52,16 +88,21 @@ const data = ref([
 
 
 <template>
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3" checked="checked" />
+  <div
+    v-for="(item, index) in Months"
+    :key="index"
+    class="collapse collapse-plus bg-base-200"
+  >
+    <input type="radio" name="my-accordion-3" />
     <div class="collapse-title text-xl font-medium">
-      Click to open this one and close others
+      {{ item.month }}
+      <div class="badge badge-error badge-sm">{{ item.clients.length }}</div>
     </div>
     <div class="collapse-content">
-      <p>hello</p>
+      <days  :data-births="item.clients" />
     </div>
   </div>
-  <div class="collapse collapse-plus bg-base-200">
+  <!-- <div class="collapse collapse-plus bg-base-200">
     <input type="radio" name="my-accordion-3" />
     <div class="collapse-title text-xl font-medium">
       Click to open this one and close others
@@ -78,7 +119,5 @@ const data = ref([
     <div class="collapse-content">
       <p>hello</p>
     </div>
-  </div>
-
-  <days :list="data" />
+  </div> -->
 </template>

@@ -4,13 +4,27 @@ const form = ref({
   name: "",
   birthday: "",
 });
+const loading = ref(false);
 const save = async () => {
-  const { name, birthday } = form.value;
-  const { data, error } = await SupaBaseCnx.from("clients").insert([{name,birthday:new Date(birthday)}]).select();
-  if (error) {
-    console.error(error);
-  } else {
-     navigateTo('/birth')
+  try {
+    const { name, birthday } = form.value;
+    loading.value = true;
+    if (name === "" || birthday == "") {
+      loading.value = false;
+      alert("field name y birthdate is required");
+      return;
+    }
+
+    const { data, error } = await SupaBaseCnx.from("clients")
+      .insert([{ name, birthday: new Date(birthday) }])
+      .select();
+    if (error) {
+      console.error(error);
+    } else {
+      navigateTo("/birth");
+    }
+  } catch (ex) {
+    loading.value = false;
   }
 };
 </script>
@@ -40,7 +54,12 @@ const save = async () => {
             placeholder="birth day"
             class="input input-bordered w-full max-w-xs"
           />
-          <button class="btn btn-primary" @click="save">Save</button>
+          <button class="btn btn-primary" @click="save">
+            <template v-if="loading">
+              <span class="loading loading-spinner loading-lg"></span>
+            </template>
+            <template v-else> Save </template>
+          </button>
         </div>
       </div>
     </div>
