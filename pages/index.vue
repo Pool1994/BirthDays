@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { SupaBaseCnx } from "~/composables/accessSupaBase";
+useHead({title:"Registrar"});
 const form = ref({
   name: "",
   birthday: "",

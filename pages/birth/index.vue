@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { IBirthDay } from "~/interfaces/IBirthDay";
+useHead({title:"Listar"});
 
 const newAdd = ()=>{
     navigateTo('/')
